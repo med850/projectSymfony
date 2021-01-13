@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme registerForm 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<h1 class="mt-5 mb-5">Join Now</h1>
+{{form_start(registerForm)}}
+{{form_widget(registerForm)}}
+
+<button class="btn btn-success">Register</button>
+
+{{form_end(registerForm)}}
+{% endblock %}

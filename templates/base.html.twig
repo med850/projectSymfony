@@ -3,10 +3,61 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+        {% endblock %}
     </head>
     <body>
+  
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{path('blog')}}">DEVELOPERS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('blog')}}">Posts
+                <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            
+           
+            
+
+            {% if app.user %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{path('newArticle')}}">New Post</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout')}}">Logout</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="#">Welcome {{app.user.firstName}}</a>
+            </li>
+
+            {% else %}
+             <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login')}}">Login</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('register')}}">Register</a>
+            </li>
+          {% endif %}
+            </ul>
+        </div>
+        </nav>
+
+    <div class="container">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    </div>    
+        {% block javascripts %}
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+        {% endblock %}
+            {{ include('@MercurySeriesFlashy/flashy.html.twig') }} 
+
     </body>
 </html>

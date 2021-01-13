@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %} 
+
+
+{% block title %}Posts{% endblock %}
+
+{% form_theme commentForm 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<style>
+    .articles{
+        border-radius : 10px;
+        box-shadow : 0 4px 16px rgba(0,0,0,.25);
+        padding : 16px 20px;
+
+        
+    }
+    img{
+        border-radius : 10px;
+        box-shadow : 0 4px 16px rgba(0,0,0,.25);
+        margin : 10px
+    }
+    
+    #comments{
+        padding : 20px;
+    }
+   
+
+</style>
+
+
+<h1>The Post Page</h1>
+ <section class="articles mt-5">
+        <article >
+          <h2 class="title">{{ article.title}}</h2>
+            <div class="metadata">created in {{ article.createdDate | date('m-d-Y')}} at {{ article.createdDate | date('H:i')}} 
+               <span class="badge badge-danger">
+                     {{ article.category.name }}
+                </span>
+                 <span class="badge badge-info">
+                     {{ article.comments | length}} comments
+                </span>
+            </div>
+            <div class ="content">
+             <img src="{{ article.image }}" alt=""></img>
+             <p>{{ article.content }}</p>
+            </div>
+        </article>
+        </section>
+
+        {% if app.user %}
+            {% if app.user == article.user %}
+        <a href="{{path('editArticle', {'id':article.id})}}" class="btn btn-success mt-5 mb-5">Edit</a>
+             {% endif %}
+        {% endif %}
+        <hr> 
+
+
+
+        <h2 class="mt-5 mb-5">Comments</h2>
+        <section id ="comments"> 
+            {% for comment in article.comments %}
+                <div class ="comment">
+                <div class="row">
+                <div class ="md-col-3" style ="color:red;">
+                (<small>{{comment.createdDate| date('m-d-Y')}} at {{comment.createdDate| date('H:i') }}</small>){{comment.developper}}
+                </div>
+                </div>
+                <p>{{comment.content}} </p>
+
+                </div>
+            {% endfor %}
+                
+        </section>
+
+        <hr>
+
+      {% if not app.user %}
+      <h2>You must be logged in to leave a comment</h2>
+      <a class="btn btn-info" href="{{ path('app_login')}}">Login</a>
+        {% else %}
+          <section>
+        <h4>Add new comment for this post</h4>
+        {{form_start(commentForm)}}
+
+        {{form_widget(commentForm)}}
+
+        <button class="btn btn-success mb-5">Add</button>
+        {{form_end(commentForm)}}
+        </section>
+        {% endif %}
+
+{% endblock %}
